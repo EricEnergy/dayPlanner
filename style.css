@@ -31,6 +31,8 @@ textarea{
 }
 
 .row {
+  font-weight: bold;
+  text-align: center;
   white-space: pre-wrap;
   height: 80px;
   border-top: 1px solid white;;
@@ -57,20 +59,23 @@ textarea{
   color: white;
 }
 
-.saveBtn {
+.col-md-1 {
   border-left: 1px solid black;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color: #06AED5;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.saveBtn i:hover {
+.col-md-1 i:hover {
   font-size: 20px;
   transition: all .3s ease-in-out;
 }
 
+
 text {
-  text-align: center;
-  font-weight: bold;
+  margin-top: 50px;
 }
