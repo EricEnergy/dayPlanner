@@ -1,76 +1,44 @@
 var workHours = ['9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM',];
 var nonWorkHoursPast = ['6PM', '7PM', '8PM', '9PM', '10PM', '11PM'] // color class past
 var nonWorkHoursFuture = ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM"] //color class future
+var newCounter = 0;
 
 var counter = 8;
 workHours.forEach(function (item) {
     counter === 12 ? counter = 0 : counter;
     counter++;
+
     let timeId = counter > 8 && counter < 12 ? counter + "AM" : counter + "PM";
     let buttonId = counter;
 
-    $('.container').append('<hr><div class="row">' + `<div class="col-md-2">${item}</div>` + '<input id="' + timeId + '" class="col-md-9">' + '<div id="' + buttonId + '"  type="button" class="col-md-1">🔒</div>' + '</div>');
-
+    $('.container').append('<hr><div class="row">' + `<div class="col-md-2">${item}</div>` + '<input id="' + timeId + '" class="col-md-9" data-count="' + newCounter + '">' + '<div id="' + buttonId + '"  type="button" class="col-md-1">🔒</div>' + '</div>');
+    newCounter++;
 });
 
-for (var i = 0; i < workHours.length; i++){
+for (var i = 0; i < workHours.length; i++) {
     var key = localStorage.key(i);
     var value = localStorage.getItem(key);
     $("#" + key).val(value);
-
-    console.log(key);
-    console.log(value);
-  
 
 }
 
 setInterval(() => {
 
-    var now = moment().format("MMM, Do, h:mm:ss a");
+    var now = moment().format("MMM, Do, h:mm:ss A");
     $('#currentDay').text(now);
 
-    
-    if (nonWorkHoursPast.indexOf(hour) >= 0) {
-
-        $("input").attr("class", "col-md-9 past");
-
-    } 
-    if (nonWorkHoursFuture.indexOf(hour) >= 0) {
-
-        $("input").attr("class", "col-md-9 future");
-
-    } 
-    if (workHours.indexOf(hour) >= 0) {
-
-        if (hour === "9am")
-        $("#9AM").attr("class", "col-md-9 past");
-        $("#10AM").attr("class", "col-md-9 future");
-        $("#11AM").attr("class", "col-md-9 past");
-        console.log("broken")
-    } 
-
-
-
-
-    
-
-    // if (hour === nonWorkHoursPast) {
-
-    //     $("input").attr("class", "col-md-9 past");
-    // };
-
-
-    // if (hour = workHours) {
-
-    //     if (hour > workHours) {
-
-    //         $("input").attr("class", "col-md-9 future");
-    //         console.log("here");
-    //     };
-
-
-    // };
-
+    for (var j = 0; j < workHours.length; j++) {
+        var currentTime = $("#" + workHours[j])
+        if (parseInt(currentTime.attr("data-count")) < hour) {
+            currentTime.attr("class", "col-md-9 past");
+        }
+        if (parseInt(currentTime.attr("data-count")) > hour) {
+            currentTime.attr("class", "col-md-9 future");
+        }
+        if (parseInt(currentTime.attr("data-count")) === hour) {
+            currentTime.attr("class", "col-md-9 present");
+        }
+    }
 
 }, 1000);
 
@@ -78,7 +46,7 @@ setInterval(() => {
 var inputInfo9AM = $('#9AM');
 var inputInfo10AM = $('#10AM');
 var inputInfo11AM = $('#11AM');
-var inputInfo12PM= $('#12PM');
+var inputInfo12PM = $('#12PM');
 var inputInfo1PM = $('#1PM');
 var inputInfo2PM = $('#2PM');
 var inputInfo3PM = $('#3PM');
@@ -138,7 +106,7 @@ $("#3").click(function () {
 
 $("#4").click(function () {
     var keyName = inputInfo4PM.attr('id');
-    var valueInput =  inputInfo4PM.val();
+    var valueInput = inputInfo4PM.val();
     localStorage.setItem(keyName, valueInput);
 
 });
@@ -149,8 +117,7 @@ $("#5").click(function () {
     localStorage.setItem(keyName, valueInput);
 
 });
-var hour = "9AM";
-// var hour = moment().format("ha");
+
+var hour = workHours.indexOf(moment().format("hA"));
 $('#whatTimeIsIt').text(hour);
-console.log(hour);
 
